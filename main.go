@@ -24,6 +24,10 @@ import (
 func main() {
 	conn, err := grpc.Dial("192.168.88.100:7571", grpc.WithTransportCredentials(insecure.NewCredentials()))
 
+	if err != nil {
+		panic(err)
+	}
+
 	client := server.NewAccountServiceClient(conn)
 
 	resp, err := client.GetAccounts(context.Background(), &server.GetAccountsRequest{})
