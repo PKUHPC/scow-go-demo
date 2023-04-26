@@ -4,10 +4,10 @@
 # Generate proto files
 make protos
 
-# Make sure SCOW mis-server is listening on 192.168.88.100:7571
-
 # Download modules
 go mod tidy
+
+# Make sure SCOW mis-server is listening on 192.168.88.100:7571
 
 # Run
 go run main.go
