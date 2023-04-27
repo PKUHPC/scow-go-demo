@@ -2,7 +2,7 @@ version: v1
 managed:
   enabled: true
   go_package_prefix:
-    default: github.com/PKUHPC/scow-grpc-api-client-demo/gen/go
+    default: github.com/PKUHPC/scow-go-demo/gen/go
     except:
       - buf.build/googleapis/googleapis
 plugins:

@@ -1,4 +1,4 @@
-module github.com/PKUHPC/scow-grpc-api-client-demo
+module github.com/PKUHPC/scow-go-demo
 
 go 1.20
 

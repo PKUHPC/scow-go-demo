@@ -12,29 +12,22 @@
 
 package main
 
-import (
-	"context"
-	"log"
-
-	"github.com/PKUHPC/scow-grpc-api-client-demo/gen/go/server"
-	"google.golang.org/grpc"
-	"google.golang.org/grpc/credentials/insecure"
-)
+import "flag"
 
 func main() {
-	conn, err := grpc.Dial("192.168.88.100:7571", grpc.WithTransportCredentials(insecure.NewCredentials()))
+	flag.Parse()
 
-	if err != nil {
-		panic(err)
+	if flag.NArg() != 1 {
+		panic("Accepts exactly one argument: hook|api")
 	}
 
-	client := server.NewAccountServiceClient(conn)
+	startType := flag.Args()[0]
 
-	resp, err := client.GetAccounts(context.Background(), &server.GetAccountsRequest{})
-
-	if err != nil {
-		panic(err)
+	if startType == "hook" {
+		StartHookServer()
+	} else if startType == "api" {
+		CallApi()
+	} else {
+		panic("Unknown start type")
 	}
-
-	log.Printf("Account list: %v", resp)
 }
