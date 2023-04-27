@@ -19,13 +19,14 @@ import (
 
 	"github.com/PKUHPC/scow-go-demo/gen/go/hook"
 	"google.golang.org/grpc"
+	"google.golang.org/protobuf/encoding/protojson"
 )
 
 type MyHookServer struct{}
 
 func (s *MyHookServer) OnEvent(ctx context.Context, req *hook.OnEventRequest) (*hook.OnEventResponse, error) {
 
-	log.Printf("Received event: %v", req)
+	log.Printf("Received event: %+v", protojson.Format(req))
 
 	return &hook.OnEventResponse{}, nil
 }
@@ -44,7 +45,7 @@ func StartHookServer() {
 	server := MyHookServer{}
 
 	hook.RegisterHookServiceServer(grpcServer, &server)
-	print("Listening at " + addr)
+	log.Printf("Listening at %s", addr)
 
 	grpcServer.Serve(lis)
 
