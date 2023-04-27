@@ -32,8 +32,10 @@ func CallApi() {
 	// create a AccountService client (protos/server/account.proto)
 	client := server.NewAccountServiceClient(conn)
 
-	// call `GetAccounts` RPC
-	resp, err := client.GetAccounts(context.Background(), &server.GetAccountsRequest{})
+	// call `GetAccounts` RPC to get all accounts under default tenant
+	resp, err := client.GetAccounts(context.Background(), &server.GetAccountsRequest{
+		TenantName: "default",
+	})
 
 	if err != nil {
 		panic(err)
