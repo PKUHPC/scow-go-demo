@@ -1,4 +1,4 @@
-SCOW_REF = branch=scow-hook
+SCOW_REF = branch=master
 # SCOW_REF = tag=v0.4.0
 
 protos: 

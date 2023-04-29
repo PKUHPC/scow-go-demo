@@ -15,10 +15,14 @@ package main
 import (
 	"context"
 	"log"
+	"os"
+	"time"
 
 	"github.com/PKUHPC/scow-go-demo/gen/go/server"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
+	"google.golang.org/grpc/metadata"
+	"google.golang.org/protobuf/encoding/protojson"
 )
 
 func CallApi() {
@@ -29,11 +33,21 @@ func CallApi() {
 		panic(err)
 	}
 
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+	defer cancel()
+
+	token := os.Getenv("SCOW_API_TOKEN")
+
+	if token != "" {
+		md := metadata.New(map[string]string{"Authorization": "Bearer " + token})
+		ctx = metadata.NewOutgoingContext(ctx, md)
+	}
+
 	// create a AccountService client (protos/server/account.proto)
 	client := server.NewAccountServiceClient(conn)
 
 	// call `GetAccounts` RPC to get all accounts under default tenant
-	resp, err := client.GetAccounts(context.Background(), &server.GetAccountsRequest{
+	resp, err := client.GetAccounts(ctx, &server.GetAccountsRequest{
 		TenantName: "default",
 	})
 
@@ -41,5 +55,5 @@ func CallApi() {
 		panic(err)
 	}
 
-	log.Printf("Account list: %v", resp)
+	log.Printf("Account list: %+v", protojson.Format(resp))
 }
