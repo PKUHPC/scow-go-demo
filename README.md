@@ -8,8 +8,10 @@
 ## Commands
 
 ```bash
-# Generate proto files
-make protos
+
+# Use a specific SCOW API version to generate proto files
+# starting from v0.3.0
+SCOW_API_VERSION=v0.3.0 make protos
 
 # Download modules
 go mod tidy
